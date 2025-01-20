@@ -5,15 +5,26 @@ const foodData = "../data/db.json";
 const categoriesList = document.querySelector(".categories__list");
 const productsList = document.querySelector(".products__list");
 const productsTitle = document.querySelector(".products__title");
+const basketEl = document.querySelector(".basket");
 const basketList = document.querySelector(".basket__list");
 const basketMain = document.querySelector(".basket-main");
+const basketAction = document.querySelector(".basket-action");
+const basketEmptyMessage = document.querySelector(".basket-empty-messasge");
 const basketTotal = document.querySelector(".basket__total");
-const basketAmount = document.querySelector(".basket__amount");
+const basketAmount = document.querySelectorAll(".basket__amount");
 const basketBtn = document.querySelector(".basket__btn");
+const deleteModal = document.querySelector(".delete-modal");
+const deleteModalYes = document.querySelector(".delete-modal__yes-btn");
+const deleteModalNo = document.querySelector(".delete-modal__no-btn");
+const basketOpener = document.querySelector(".basket-opener");
+
 // Modals
 const productInfoModal = document.querySelector(".product-modal");
+const deliveryModal = document.querySelector(".delivery-modal");
 const closeModal = document.querySelectorAll(".modal__close-btn");
 const overlay = document.querySelector(".overlay");
+const deliveryForm = document.getElementById("delivery-modal__form");
+const deliveryInputs = document.querySelectorAll("input");
 
 const categoriesData = [
   {
@@ -93,7 +104,9 @@ const getData = async (resurce) => {
 
 const handleCloseModals = () => {
   productInfoModal.classList.add("hidden");
+  deliveryModal.classList.add("hidden");
   overlay.classList.add("hidden");
+  deleteModal.classList.add("hidden");
 };
 
 const handleModals = () => {
@@ -122,6 +135,8 @@ function setBasket() {
 setBasket();
 
 function showBasket() {
+  // basketMain.innerHTML = "";
+  let existingItem;
   basketList.innerHTML = "";
   if (basket.length) {
     basket.forEach((item, i) => {
@@ -157,6 +172,9 @@ function showBasket() {
     `;
     });
 
+    basketAction.classList.remove("hidden");
+    basketEmptyMessage.classList.add("hidden");
+
     document.querySelectorAll(".basket__item-add").forEach((btn, i) => {
       btn.addEventListener("click", (e) => {
         const existingItem = basket.find(
@@ -176,12 +194,18 @@ function showBasket() {
 
     document.querySelectorAll(".basket__item-remove").forEach((btn, i) => {
       btn.addEventListener("click", (e) => {
-        const existingItem = basket.find(
+        existingItem = basket.find(
           (item) => item.product.id == e.target.dataset.id
         );
 
         if (existingItem) {
           existingItem.amount -= 1;
+
+          if (existingItem.amount < 1) {
+            deleteModal.classList.remove("hidden");
+            overlay.classList.remove("hidden");
+            handleDeleteModal(existingItem);
+          }
         } else {
           basket.push({ product: product, amount: amount });
         }
@@ -214,15 +238,78 @@ function showBasket() {
     <span>${totalCost}₽</span>
     `;
 
-    basketAmount.textContent = totalAmount;
+    basketAmount.forEach((amount) => {
+      amount.textContent = totalAmount;
+    });
   } else {
-    basketMain.innerHTML = `
-    <p>Тут пока пусто :(</p>
-    `;
+    basketAction.classList.add("hidden");
+    basketEmptyMessage.classList.remove("hidden");
+    basketAmount.forEach((amount) => {
+      amount.textContent = 0;
+    });
+  }
+
+  deleteModalYes.addEventListener("click", () => {
+    handleCloseModals();
+    deleteProducts();
+  });
+
+  function handleDeleteModal(existingItem) {
+    deleteModalNo.addEventListener("click", () => {
+      if (existingItem) {
+        existingItem.amount = 1;
+      } else {
+        basket.push({ product: item.product, amount: item.amount });
+      }
+
+      localStorage.setItem("list", JSON.stringify(basket));
+      showBasket();
+      handleCloseModals();
+    });
+
+    overlay.addEventListener("click", () => {
+      if (existingItem) {
+        existingItem.amount = 1;
+      } else {
+        basket.push({ product: item.product, amount: item.amount });
+      }
+
+      localStorage.setItem("list", JSON.stringify(basket));
+      showBasket();
+      handleCloseModals();
+    });
+  }
+
+  basketBtn.addEventListener("click", () => {
+    deliveryModal.classList.remove("hidden");
+    overlay.classList.remove("hidden");
+  });
+}
+
+function checkScreenSize() {
+  if (window.innerWidth > 965) {
+    basketEl.classList.remove("hidden");
+  } else {
+    basketEl.classList.add("hidden");
   }
 }
 
-basketBtn.addEventListener("click", deleteProducts);
+basketOpener.addEventListener("click", () => {
+  basketEl.classList.toggle("hidden");
+});
+
+checkScreenSize();
+
+window.addEventListener("resize", checkScreenSize);
+
+deliveryForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  deliveryForm.reset();
+  basket = [];
+  setBasket();
+  showBasket();
+  handleCloseModals();
+});
 
 function deleteProducts() {
   const deletedProducts = basket.filter((item, i) => {
@@ -235,10 +322,8 @@ function deleteProducts() {
   showBasket();
 }
 
-// deleteProducts();
-
 const getProductModal = (food) => {
-  let amountCounter = 1; // Initial amount of the product
+  let amountCounter = 1;
   productInfoModal.innerHTML = `
     <div class="modal__header">
       <h2 class="modal__title">${food.name}</h2>

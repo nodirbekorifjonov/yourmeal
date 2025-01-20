@@ -236,6 +236,10 @@ body {
   flex-shrink: 0;
 }
 
+.basket.hidden {
+  display: none;
+}
+
 .basket__header {
   display: flex;
   justify-content: space-between;
@@ -335,63 +339,6 @@ body {
   display: flex;
   align-items: center;
   gap: 0.8rem;
-}
-
-/* Mobile Busket */
-.mobile-basket.hidden {
-  display: none;
-}
-
-.mobile-basket {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  padding: 1.6rem 1rem;
-  top: -8rem;
-  box-shadow: 0px 0px 15px 3px rgba(0, 0, 0, 0.1);
-}
-
-.mobile-basket .basket__header {
-  margin-bottom: 0.8rem;
-}
-
-.mobile-basket .basket__title {
-  font-size: 1.6rem;
-}
-
-.mobile-basket .basket__amount {
-  font-size: 1rem;
-  padding: 0.1rem 1.3rem;
-  width: 3.2rem;
-}
-
-.mobile-basket .basket__item {
-  padding: 1rem 0 1.2rem;
-}
-
-.mobile-basket .basket__item-amount {
-  width: 8rem;
-  font-size: 1.2rem;
-  border-radius: 0.8rem;
-}
-
-.mobile-basket .basket__item-btn {
-  width: 3rem;
-}
-
-.mobile-basket .basket__total {
-  padding: 1.3rem 0 1rem;
-}
-
-.mobile-basket .basket__delivery {
-  font-size: 1rem;
-}
-
-.busket__close-btn {
-  cursor: pointer;
-  margin-left: auto;
-  color: #b1b1b1;
-  text-decoration: underline;
 }
 
 /* Products */
@@ -678,9 +625,62 @@ body {
   gap: 0.8rem;
 }
 
-.delivery-modal__btn {
+/* Delete Modal */
+.delete-modal {
+  position: fixed;
+  padding: 2.4rem;
+  z-index: 1000;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 30rem;
+  height: 16rem;
+  background: #fff;
+  border-radius: 2.4rem;
+  gap: 1.5rem;
 }
-.site-btn {
+
+.delete-modal h3 {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.delete-modal__btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.delete-modal__btn {
+  cursor: pointer;
+  width: 7.5rem;
+  padding: 0.8rem 2.4rem;
+  background-color: transparent;
+  border-radius: 0.4rem;
+  border: none;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.delete-modal__yes-btn {
+  background-color: #00950f;
+}
+
+.delete-modal__yes-btn:hover {
+  background: #007b0c;
+}
+
+.delete-modal__no-btn {
+  background-color: #ff0033;
+}
+
+.delete-modal__no-btn:hover {
+  background-color: #d2002a;
 }
 
 /* Overlay */
@@ -759,8 +759,57 @@ body {
     gap: 2rem;
   }
 
-  .desktop-basket {
-    display: none;
+  .basket {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    padding: 1.6rem 1rem;
+    top: -2.5rem;
+    box-shadow: 0px 0px 15px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .basket__header {
+    margin-bottom: 0.8rem;
+  }
+
+  .basket__title {
+    font-size: 1.6rem;
+  }
+
+  .basket__amount {
+    font-size: 1rem;
+    padding: 0.1rem 1.3rem;
+    width: 3.2rem;
+  }
+
+  .basket__item {
+    padding: 1rem 0 1.2rem;
+  }
+
+  .basket__item-amount {
+    width: 8rem;
+    font-size: 1.2rem;
+    border-radius: 0.8rem;
+  }
+
+  .basket__item-btn {
+    width: 3rem;
+  }
+
+  .basket__item-btn:hover {
+    background-color: #eaeaea;
+  }
+
+  .basket__total {
+    padding: 1.3rem 0 1rem;
+  }
+
+  .basket__btn {
+    margin: 0.8rem 0;
+  }
+
+  .basket__delivery {
+    font-size: 1rem;
   }
 
   .basket-opener {
@@ -1008,8 +1057,22 @@ body {
   }
 
   .delivery-modal {
-    /* display: block; */
+    display: block;
     background: #f9f9f9;
+  }
+
+  .delivery-modal.hidden {
+    display: none;
+  }
+
+  /* Delete Modal */
+  .delete-modal {
+    width: 90%;
+    border-radius: 1.8rem;
+  }
+
+  .delete-modal h3 {
+    font-size: 1.8rem;
   }
 }
 
@@ -1037,7 +1100,7 @@ body {
     grid-template-columns: repeat(1, minmax(145px, 1fr));
   }
 
-  .mobile-basket {
+  .basket {
     width: 93.5%;
   }
 

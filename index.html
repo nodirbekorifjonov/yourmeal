@@ -54,133 +54,32 @@
         <div class="container menu__container">
           <button class="basket-opener">
             <h3>Корзина</h3>
-            <span>0</span>
+            <span class="basket__amount">0</span>
           </button>
-          <!-- Mobile Busket -->
-          <!-- <div class="basket mobile-basket hidden">
-            <div class="basket__header">
-              <h3 class="basket__title">Корзина</h3>
-              <span class="basket__amount">4</span>
-            </div>
-            <ul class="basket__list">
-              <li class="basket__item">
-                <div class="basket__item-info">
-                  <img
-                    src="./images/jpeg/photo-1.png"
-                    alt=""
-                    srcset="
-                      ./images/jpeg/photo-1.png    1x,
-                      ./images/jpeg/photo-1@2x.png 2x
-                    "
-                  />
-                  <div class="basket__item-desc">
-                    <h5 class="basket__item-title">Супер сырный</h5>
-                    <span class="basket__item-weight">512г</span>
-                    <p class="basket__item-cost">550₽</p>
-                  </div>
-                </div>
-                <div class="basket__item-amount">
-                  <button class="basket__item-remove basket__item-btn">
-                    -
-                  </button>
-                  <span class="basket__item-counter">1</span>
-                  <button class="basket__item-add basket__item-btn">+</button>
-                </div>
-              </li>
-              <li class="basket__item">
-                <div class="basket__item-info">
-                  <img
-                    src="./images/jpeg/photo-1.png"
-                    alt=""
-                    srcset="
-                      ./images/jpeg/photo-1.png    1x,
-                      ./images/jpeg/photo-1@2x.png 2x
-                    "
-                  />
-                  <div class="basket__item-desc">
-                    <h5 class="basket__item-title">Супер сырный</h5>
-                    <span class="basket__item-weight">512г</span>
-                    <p class="basket__item-cost">550₽</p>
-                  </div>
-                </div>
-                <div class="basket__item-amount">
-                  <button class="basket__item-remove basket__item-btn">
-                    -
-                  </button>
-                  <span class="basket__item-counter">2</span>
-                  <button class="basket__item-remove basket__item-btn">
-                    +
-                  </button>
-                </div>
-              </li>
-              <li class="basket__item">
-                <div class="basket__item-info">
-                  <img
-                    src="./images/jpeg/photo-1.png"
-                    alt=""
-                    srcset="
-                      ./images/jpeg/photo-1.png    1x,
-                      ./images/jpeg/photo-1@2x.png 2x
-                    "
-                  />
-                  <div class="basket__item-desc">
-                    <h5 class="basket__item-title">Супер сырный</h5>
-                    <span class="basket__item-weight">512г</span>
-                    <p class="basket__item-cost">550₽</p>
-                  </div>
-                </div>
-                <div class="basket__item-amount">
-                  <button class="basket__item-remove basket__item-btn">
-                    -
-                  </button>
-                  <span class="basket__item-counter">1</span>
-                  <button class="basket__item-remove basket__item-btn">
-                    +
-                  </button>
-                </div>
-              </li>
-            </ul>
-            <div class="basket__total">
-              <h4>Итого</h4>
-              <span>1279₽</span>
-            </div>
-            <button class="site-btn basket__btn">Оформить заказ</button>
-            <span class="basket__delivery">
-              <img
-                src="./images/png/delivery.png"
-                alt=""
-                srcset="
-                  ./images/png/delivery.png    1x,
-                  ./images/png/delivery@2x.png 2x
-                "
-              />
-              Бесплатная доставка
-              <span class="busket__close-btn">Свернуть</span>
-            </span>
-          </div> -->
           <!-- Basket -->
-          <div class="basket desktop-basket">
+          <div class="basket desktop-basket hidden">
             <div class="basket__header">
               <h3 class="basket__title">Корзина</h3>
               <span class="basket__amount">0</span>
             </div>
             <div class="basket-main">
               <ul class="basket__list"></ul>
-              <div class="basket__total">
-                
+              <div class="basket-action hidden">
+                <div class="basket__total"></div>
+                <button class="site-btn basket__btn">Оформить заказ</button>
+                <span class="basket__delivery">
+                  <img
+                    src="./images/png/delivery.png"
+                    alt=""
+                    srcset="
+                      ./images/png/delivery.png    1x,
+                      ./images/png/delivery@2x.png 2x
+                    "
+                  />
+                  Бесплатная доставка
+                </span>
               </div>
-              <button class="site-btn basket__btn">Оформить заказ</button>
-              <span class="basket__delivery">
-                <img
-                  src="./images/png/delivery.png"
-                  alt=""
-                  srcset="
-                    ./images/png/delivery.png    1x,
-                    ./images/png/delivery@2x.png 2x
-                  "
-                />
-                Бесплатная доставка
-              </span>
+              <p class="basket-empty-messasge">Тут пока пусто :</p>
             </div>
           </div>
           <!-- /Basket -->
@@ -209,7 +108,7 @@
               <img src="./images/svg/close.svg" alt="" />
             </button>
           </div>
-          <form>
+          <form id="delivery-modal__form">
             <input type="text" placeholder="Ваше имя" required />
             <input type="tel" placeholder="Телефон" required />
 
@@ -218,7 +117,7 @@
               Самовывоз
             </label>
             <label class="delivery-modal__service">
-              <input type="radio" name="delivery" id="delivery" />
+              <input type="radio" name="delivery" id="delivery" checked />
               Доставка
             </label>
 
@@ -235,6 +134,15 @@
               Оформить
             </button>
           </form>
+        </div>
+      </div>
+
+      <!-- Delete Modal -->
+      <div class="delete-modal hidden">
+        <h3>Удалить эту еду?</h3>
+        <div class="delete-modal__btns">
+          <button class="delete-modal__yes-btn delete-modal__btn">Да</button
+          ><button class="delete-modal__no-btn delete-modal__btn">Нет</button>
         </div>
       </div>
       <!-- /MODALS -->
